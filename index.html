@@ -1,188 +1,222 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>You've Been Hacked 😈</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>You've Been Hacked 😈</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
 
-        body {
-            font-family: 'Share Tech Mono', monospace;
-            text-align: center;
-            background-color: black;
-            color: #00ff00;
-            margin: 0;
-            padding: 50px;
-            overflow: hidden;
-            position: relative;
-        }
+    /* Basic Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        h1 {
-            font-size: 3rem;
-            text-shadow: 0 0 10px #00ff00;
-        }
+    body {
+      background: black;
+      color: #00ff00;
+      font-family: 'Share Tech Mono', monospace;
+      overflow: hidden;
+    }
 
-        p {
-            font-size: 1.5rem;
-            text-shadow: 0 0 8px #00ff00;
-        }
+    /* Matrix Background Canvas */
+    #matrixCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
 
-        input, button {
-            font-size: 1.2rem;
-            padding: 10px;
-            background: black;
-            border: 2px solid #00ff00;
-            color: #00ff00;
-            text-shadow: 0 0 5px #00ff00;
-            margin-top: 10px;
-        }
+    /* Main Content Container */
+    #content {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding-top: 50px;
+    }
 
-        input {
-            width: 200px;
-            text-align: center;
-        }
+    h1 {
+      font-size: 3rem;
+      text-shadow: 0 0 10px #00ff00;
+      margin-bottom: 20px;
+    }
 
-        button:hover {
-            background: #00ff00;
-            color: black;
-            cursor: pointer;
-        }
+    p {
+      font-size: 1.5rem;
+      text-shadow: 0 0 8px #00ff00;
+      margin-bottom: 20px;
+    }
 
-        .hidden {
-            display: none;
-        }
+    input,
+    button {
+      font-size: 1.2rem;
+      padding: 10px;
+      background: black;
+      border: 2px solid #00ff00;
+      color: #00ff00;
+      margin: 10px;
+    }
 
-        .hacker {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 300px;
-            opacity: 0;
-            transition: opacity 1s ease-in-out;
-            z-index: 2; /* Ensure it is above the matrix */
-        }
+    button:hover {
+      background: #00ff00;
+      color: black;
+      cursor: pointer;
+    }
 
-        /* Flashing Crazy Colors */
-        @keyframes flash {
-            0% { background-color: black; }
-            25% { background-color: red; }
-            50% { background-color: green; }
-            75% { background-color: blue; }
-            100% { background-color: black; }
-        }
+    /* Message and Hacker Image */
+    #message {
+      margin-top: 20px;
+      opacity: 0;
+      transition: opacity 1s;
+    }
 
-        .flashing {
-            animation: flash 0.1s infinite;
-        }
+    #message.visible {
+      opacity: 1;
+    }
 
-        /* Matrix Canvas */
-        #matrixCanvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1; /* Ensure it is below other elements */
-        }
+    .hacker {
+      width: 300px;
+      display: block;
+      margin: 20px auto;
+    }
 
-    </style>
+    /* Chaos Overlay */
+    #chaosOverlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: black;
+      z-index: 10;
+      display: none;
+      text-align: center;
+      color: red;
+      font-size: 5rem;
+      padding-top: 40vh;
+    }
+
+    /* Flashing Background for Chaos */
+    .flashing {
+      animation: flash 0.1s infinite;
+    }
+
+    @keyframes flash {
+      0% { background-color: black; }
+      25% { background-color: red; }
+      50% { background-color: green; }
+      75% { background-color: blue; }
+      100% { background-color: black; }
+    }
+  </style>
 </head>
 <body>
-    <canvas id="matrixCanvas"></canvas>
+  <!-- Matrix Background -->
+  <canvas id="matrixCanvas"></canvas>
 
+  <!-- Main Content -->
+  <div id="content">
     <h1>Welcome to the System</h1>
     <p>What is your name, good boy? 🟩</p>
-    <input type="text" id="nameInput" placeholder="Enter your name...">
+    <input type="text" id="nameInput" placeholder="Enter your name..." />
     <button onclick="startCrash()">Submit</button>
 
-    <div id="message" class="hidden">
-        <h1>Good boy, <span id="userName"></span> 😈</h1>
-        <p>Kiss your Chromebook goodbye... 💋</p>
-        <img src="https://lh4.googleusercontent.com/proxy/HQp3JQwu8uKU5seHJRUTG3u6_aNKTZcJV2cQhPXmHGB3gSRFXyiC8arcyjH-zAqmkPO896YkaNPEmpiLoG__EGmtbg4Vjqr1g8mDdweSgzHP5V_gpgqhHtRyCK6SGCq1uYF6Z0IxY8i2iaIm3yKVHWA" class="hacker" id="hackerImg">
-        <audio id="evilLaugh" src="https://www.fesliyanstudios.com/play-mp3/4386" preload="auto"></audio>
+    <div id="message">
+      <h1>Good boy, <span id="userName"></span> 😈</h1>
+      <p>Kiss your Chromebook goodbye... 💋</p>
+      <!-- Hacker Image (using your provided link) -->
+      <img
+        src="https://lh4.googleusercontent.com/proxy/HQp3JQwu8uKU5seHJRUTG3u6_aNKTZcJV2cQhPXmHGB3gSRFXyiC8arcyjH-zAqmkPO896YkaNPEmpiLoG__EGmtbg4Vjqr1g8mDdweSgzHP5V_gpgqhHtRyCK6SGCq1uYF6Z0IxY8i2iaIm3yKVHWA"
+        alt="Hacker"
+        class="hacker"
+        id="hackerImg"
+      />
+      <!-- Evil Laughter Sound -->
+      <audio id="evilLaugh" src="https://www.fesliyanstudios.com/play-mp3/4386" preload="auto"></audio>
     </div>
+  </div>
 
-    <script>
-        // Initialize Matrix Effect Canvas
-        const canvas = document.getElementById("matrixCanvas");
-        const ctx = canvas.getContext("2d");
+  <!-- Chaos Overlay (initially hidden) -->
+  <div id="chaosOverlay">SYSTEM FAILURE</div>
 
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+  <script>
+    // MATRIX EFFECT SETUP
+    const canvas = document.getElementById('matrixCanvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 
-        const letters = "01XOX1XOX10XOX1XOX10XOX1XOX10XOX1XOX1";
-        const matrix = letters.split("");
-        const fontSize = 16;
-        const columns = canvas.width / fontSize;
-        const drops = Array.from({ length: Math.floor(columns) }).fill(1);
+    const letters = "01XOX1XOX10XOX1XOX10XOX1XOX10XOX1XOX1";
+    const matrix = letters.split("");
+    const fontSize = 16;
+    const columns = canvas.width / fontSize;
+    const drops = [];
+    for (let i = 0; i < columns; i++) {
+      drops[i] = 1;
+    }
 
-        function drawMatrix() {
-            ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            ctx.fillStyle = "#0F0";
-            ctx.font = fontSize + "px monospace";
-
-            for (let i = 0; i < drops.length; i++) {
-                const text = matrix[Math.floor(Math.random() * matrix.length)];
-                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-
-                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                    drops[i] = 0;
-                }
-
-                drops[i]++;
-            }
+    function drawMatrix() {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#0F0";
+      ctx.font = fontSize + "px monospace";
+      for (let i = 0; i < drops.length; i++) {
+        const text = matrix[Math.floor(Math.random() * matrix.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
         }
-        setInterval(drawMatrix, 50);
+        drops[i]++;
+      }
+    }
+    setInterval(drawMatrix, 50);
 
-        // Function to handle crash
-        function startCrash() {
-            let name = document.getElementById("nameInput").value.trim() || "User";
-            document.getElementById("userName").innerText = name;
-            document.getElementById("message").classList.remove("hidden");
+    // START CRASH FUNCTION
+    function startCrash() {
+      // Get user name
+      const name = document.getElementById('nameInput').value.trim() || 'User';
+      document.getElementById('userName').textContent = name;
 
-            // Hide input and button
-            document.getElementById("nameInput").style.display = "none";
-            document.querySelector("button").style.display = "none";
+      // Reveal the message div
+      document.getElementById('message').classList.add('visible');
 
-            // Flashing chaos colors
-            document.body.classList.add("flashing");
+      // Hide the input and button
+      document.getElementById('nameInput').style.display = 'none';
+      document.querySelector('button').style.display = 'none';
 
-            // Show the hacker image
-            const hackerImg = document.getElementById("hackerImg");
-            hackerImg.style.opacity = "1";
+      // Play the evil laugh sound
+      document.getElementById('evilLaugh').play();
 
-            // Play the evil laughter sound
-            const evilLaugh = document.getElementById("evilLaugh");
-            evilLaugh.play();
+      // After 3 seconds, start chaos mode
+      setTimeout(() => {
+        // Show chaos overlay with flashing background
+        const chaos = document.getElementById('chaosOverlay');
+        chaos.style.display = 'block';
+        chaos.classList.add('flashing');
 
-            // Crash Sequence (initiates the chaos)
-            setTimeout(() => {
-                // SYSTEM FAILURE message
-                document.body.innerHTML = "<h1 style='color:red; font-size:5rem;'>SYSTEM FAILURE</h1>";
+        // Begin screen shaking
+        setInterval(() => {
+          const x = Math.random() * 10 - 5;
+          const y = Math.random() * 10 - 5;
+          document.body.style.transform = `translate(${x}px, ${y}px)`;
+        }, 50);
 
-                // Chaos Mode
-                setInterval(() => { window.open("https://theuselessweb.com", "_blank"); }, 100);
-                setInterval(() => { window.location = "https://www.neverendingredditloop.com"; }, 100);
+        // Attempt to spam open new windows (may be blocked by browser)
+        setInterval(() => {
+          window.open("https://theuselessweb.com", "_blank");
+        }, 100);
 
-                // Lock Browser
-                onbeforeunload = function(){localStorage.x=1};
+        // Attempt repeated redirection (may be blocked)
+        setInterval(() => {
+          window.location = "https://www.neverendingredditloop.com";
+        }, 100);
 
-                // Prevent Back Navigation (push state)
-                history.pushState(null, null, location.href);
-                setInterval(() => { history.pushState(null, null, location.href); }, 50);
-
-                // Violent Screen Shake
-                setInterval(() => {
-                    let x = Math.random() * 10 - 5;
-                    let y = Math.random() * 10 - 5;
-                    document.body.style.transform = `translate(${x}px, ${y}px)`;
-                }, 50);
-            }, 3000);
-        }
-    </script>
+      }, 3000);
+    }
+  </script>
 </body>
 </html>
