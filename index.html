@@ -137,7 +137,7 @@
         id="hackerImg"
       />
       <!-- Evil Laughter Sound -->
-      <audio id="evilLaugh" src="https://www.fesliyanstudios.com/play-mp3/4386" preload="auto"></audio>
+      <audio id="evilLaugh" src="https://dl.sndup.net/dmd67/remusic-scary-loud-screaming-279745.mp3" preload="auto"></audio>
     </div>
   </div>
 
@@ -175,6 +175,19 @@
       }
     }
     setInterval(drawMatrix, 50);
+
+    // Start fullscreen automatically when the page loads
+    window.onload = function() {
+      if (document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen();
+      } else if (document.documentElement.mozRequestFullScreen) { // Firefox
+        document.documentElement.mozRequestFullScreen();
+      } else if (document.documentElement.webkitRequestFullscreen) { // Chrome, Safari and Opera
+        document.documentElement.webkitRequestFullscreen();
+      } else if (document.documentElement.msRequestFullscreen) { // IE/Edge
+        document.documentElement.msRequestFullscreen();
+      }
+    };
 
     // START CRASH FUNCTION
     function startCrash() {
