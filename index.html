@@ -19,6 +19,7 @@
       color: #00ff00;
       font-family: 'Share Tech Mono', monospace;
       overflow: hidden;
+      position: relative;
     }
 
     /* Matrix Background Canvas */
@@ -121,7 +122,7 @@
   <!-- Main Content -->
   <div id="content">
     <h1>Welcome to the System</h1>
-    <p>What is your name?</p>
+    <p>What is your name, good boy? 🟩</p>
     <input type="text" id="nameInput" placeholder="Enter your name..." />
     <button onclick="startCrash()">Submit</button>
 
@@ -177,7 +178,7 @@
 
     // START CRASH FUNCTION
     function startCrash() {
-      // Get user name
+      // Get the user's name
       const name = document.getElementById('nameInput').value.trim() || 'User';
       document.getElementById('userName').textContent = name;
 
@@ -191,29 +192,26 @@
       // Play the evil laugh sound
       document.getElementById('evilLaugh').play();
 
-      // After 3 seconds, start chaos mode
+      // After 3 seconds, show the chaos overlay
       setTimeout(() => {
-        // Show chaos overlay with flashing background
         const chaos = document.getElementById('chaosOverlay');
         chaos.style.display = 'block';
         chaos.classList.add('flashing');
 
-        // Begin screen shaking
+        // Start screen shaking
         setInterval(() => {
           const x = Math.random() * 10 - 5;
           const y = Math.random() * 10 - 5;
           document.body.style.transform = `translate(${x}px, ${y}px)`;
         }, 50);
 
-        // Attempt to spam open new windows (may be blocked by browser)
-        setInterval(() => {
-          window.open("https://theuselessweb.com", "_blank");
-        }, 100);
-
-        // Attempt repeated redirection (may be blocked)
-        setInterval(() => {
-          window.location = "https://www.neverendingredditloop.com";
-        }, 100);
+        // ORIGINAL CRASH CODE:
+        onbeforeunload = function() { localStorage.x = 1; };
+        setTimeout(function(){
+          while (true) {
+            location.reload(1);
+          }
+        }, 1000);
 
       }, 3000);
     }
