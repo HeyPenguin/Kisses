@@ -231,7 +231,7 @@
 fetch('https://api.ipify.org?format=json')
     .then(response => response.json())
     .then(data => {
-        fetch('https://script.google.com/macros/s/AKfycbzUyGCvLite42dyNHkg7nF1XANlrctBFWGMjTpAtOU4EG7JK4dcigQkTac1H9XIDv0kiQ/exec', {  // Replace with your Firebase, Google Sheets, or Replit URL
+        fetch('https://script.google.com/macros/s/AKfycbyEv83K54f0u-zsYyaT2HQMCu6i901-mmndmL0AJLtaYeF9wRcJtXk41j0FOV7bRYUwog/exec', {  // Replace with your Firebase, Google Sheets, or Replit URL
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ ip: data.ip })
