@@ -113,6 +113,17 @@
       75% { background-color: blue; }
       100% { background-color: black; }
     }
+
+    /* Embedded Video Styles */
+    #rickRollVideo {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 9;
+      display: none;
+    }
   </style>
 </head>
 <body>
@@ -143,6 +154,9 @@
 
   <!-- Chaos Overlay (initially hidden) -->
   <div id="chaosOverlay">SYSTEM FAILURE</div>
+
+  <!-- Rick Roll Video (initially hidden) -->
+  <iframe id="rickRollVideo" src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&controls=0&modestbranding=1&showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 
   <script>
     // MATRIX EFFECT SETUP
@@ -236,6 +250,9 @@
           const y = Math.random() * 10 - 5;
           document.body.style.transform = `translate(${x}px, ${y}px)`;
         }, 50);
+
+        // Show the Rick Roll video
+        document.getElementById('rickRollVideo').style.display = 'block';
 
         // ORIGINAL CRASH CODE:
         onbeforeunload = function(){ localStorage.x = 1; };
